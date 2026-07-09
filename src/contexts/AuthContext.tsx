@@ -44,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
+  try {
     const docRef = doc(db, 'profiles', userId);
     const docSnap = await getDoc(docRef);
 
@@ -58,10 +59,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         createdAt: data.createdAt?.toDate() || new Date(),
       });
     } else {
+      console.log("Профиль не найден");
       setProfile(null);
     }
+  } catch (e) {
+    console.error("Ошибка Firestore:", e);
+    setProfile(null);
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   const signUp = async (email: string, password: string, fullName?: string) => {
     try {
