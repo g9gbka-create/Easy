@@ -49,6 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
+      console.log('PROFILE:', data);
       setProfile({
         id: docSnap.id,
         fullName: data.fullName || null,
@@ -60,6 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       setProfile(null);
     }
+    console.log('isAdmin =', data.isAdmin);
     setLoading(false);
   };
 
