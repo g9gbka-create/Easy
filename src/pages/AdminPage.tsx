@@ -11,6 +11,11 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from 'firebase/storage';
 import { Plus, Edit2, Trash2, X, Save, ChevronLeft, Image } from 'lucide-react';
 import { db, storage } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
