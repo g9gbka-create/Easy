@@ -317,13 +317,27 @@ export function AdminPage() {
                   onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                   className="input-field"
                 />
-                <input
-                  type="text"
-                  placeholder="Slug (URL)"
-                  value={productForm.slug}
-                  onChange={(e) => setProductForm({ ...productForm, slug: e.target.value })}
-                  className="input-field"
-                />
+                <div className="space-y-2">
+  <label className="block text-sm font-medium">
+    Фото товару
+  </label>
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) => {
+      if (e.target.files?.[0]) {
+        setImageFile(e.target.files[0]);
+      }
+    }}
+  />
+
+  {imageFile && (
+    <p className="text-sm text-green-600">
+      ✓ {imageFile.name}
+    </p>
+  )}
+</div>
                 <textarea
                   placeholder="Опис"
                   value={productForm.description}
