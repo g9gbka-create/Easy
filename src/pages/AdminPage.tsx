@@ -143,14 +143,27 @@ export function AdminPage() {
 
   const handleSaveProduct = async () => {
     if (!productForm.name || !productForm.slug || !productForm.price) return;
+    
+let imageUrl: string | null = productForm.imageUrl || null;
 
+if (imageFile) {
+  const imageRef = ref(
+    storage,
+    `products/${Date.now()}-${imageFile.name}`
+  );
+
+  await uploadBytes(imageRef, imageFile);
+
+  imageUrl = await getDownloadURL(imageRef);
+}
+    
     const productData = {
       name: productForm.name,
       slug: productForm.slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
       description: productForm.description || null,
       price: parseFloat(productForm.price),
       originalPrice: productForm.originalPrice ? parseFloat(productForm.originalPrice) : null,
-      imageUrl: productForm.imageUrl || null,
+      imageUrl,
       images: [],
       categoryId: productForm.categoryId || null,
       stock: parseInt(productForm.stock) || 0,
