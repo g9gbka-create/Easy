@@ -146,10 +146,20 @@ export function AdminPage() {
 
   alert("1");
 
-  if (!productForm.name || !productForm.slug || !productForm.price) {
-    alert("2 - не заполнены обязательные поля");
-    return;
-  }
+  console.log(productForm);
+
+alert(
+  JSON.stringify({
+    name: productForm.name,
+    slug: productForm.slug,
+    price: productForm.price,
+  })
+);
+
+if (!productForm.name || !productForm.slug || !productForm.price) {
+  alert("2 - не заполнены обязательные поля");
+  return;
+}
 
   alert("3");
 
