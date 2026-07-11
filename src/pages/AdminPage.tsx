@@ -200,7 +200,8 @@ if (imageFile) {
         setShowProductForm(false);
       }
     } catch (error) {
-      console.error('Error saving product:', error);
+  console.error(error);
+  alert(String(error));
     }
   };
 
