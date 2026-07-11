@@ -489,13 +489,7 @@ export function AdminPage() {
                   onChange={(e) => setCategoryForm({ ...categoryForm, slug: e.target.value })}
                   className="input-field"
                 />
-                <input
-                  type="url"
-                  placeholder="URL зображення"
-                  value={categoryForm.imageUrl}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, imageUrl: e.target.value })}
-                  className="input-field"
-                />
+                
                 <button onClick={handleSaveCategory} className="btn-primary flex items-center justify-center gap-2">
                   <Save className="w-4 h-4" />
                   Додати категорію
