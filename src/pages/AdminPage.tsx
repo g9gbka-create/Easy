@@ -142,26 +142,35 @@ export function AdminPage() {
   };
 
   const handleSaveProduct = async () => {
-  if (!productForm.name || !productForm.price) {
-    alert("Заповніть назву та ціну");
+  alert("1");
+
+  if (!productForm.name || !productForm.slug || !productForm.price) {
+    alert("2 - не заполнены обязательные поля");
     return;
   }
 
-  try {
-    console.log("1");
-    let imageUrl: string | null = productForm.imageUrl || null;
+  alert("3");
 
-    if (imageFile) {
-      const imageRef = ref(
-        storage,
-        `products/${Date.now()}-${imageFile.name}`
-      );
+  let imageUrl: string | null = productForm.imageUrl || null;
 
-      await uploadBytes(imageRef, imageFile);
-      console.log("2");
-      imageUrl = await getDownloadURL(imageRef);
-      console.log("3", imageUrl);
-    }
+  if (imageFile) {
+    alert("4 - загружаем фото");
+
+    const imageRef = ref(
+      storage,
+      `products/${Date.now()}-${imageFile.name}`
+    );
+
+    await uploadBytes(imageRef, imageFile);
+
+    alert("5 - фото загружено");
+
+    imageUrl = await getDownloadURL(imageRef);
+
+    alert("6 - ссылка получена");
+  }
+
+  alert("7");
 
     const productData = {
       name: productForm.name,
