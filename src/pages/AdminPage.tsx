@@ -185,7 +185,7 @@ if (!productForm.name || !productForm.slug || !productForm.price) {
   alert("7");
 try {
     const productData = {
-      name: productForm.name,
+    name: productForm.name,
       slug:
         productForm.slug.trim() ||
         productForm.name
@@ -220,6 +220,7 @@ try {
         )
       );
     } else {
+      alert("8");
       console.log("4");
       const docRef = await addDoc(collection(db, "products"), productData);
       console.log("5");
