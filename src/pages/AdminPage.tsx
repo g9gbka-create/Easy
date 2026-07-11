@@ -310,101 +310,156 @@ export function AdminPage() {
               </div>
 
               <div className="space-y-3">
-                <input
-                  type="text"
-                  placeholder="Назва товару"
-                  value={productForm.name}
-                  onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
-                  className="input-field"
-                />
-                <div className="space-y-2">
-  <label className="block text-sm font-medium">
-    Фото товару
-  </label>
-
   <input
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-      if (e.target.files?.[0]) {
-        setImageFile(e.target.files[0]);
-      }
-    }}
+    type="text"
+    placeholder="Назва товару"
+    value={productForm.name}
+    onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+    className="input-field"
   />
 
-  {imageFile && (
-    <p className="text-sm text-green-600">
-      ✓ {imageFile.name}
-    </p>
-  )}
+  <input
+    type="text"
+    placeholder="Slug (URL)"
+    value={productForm.slug}
+    onChange={(e) => setProductForm({ ...productForm, slug: e.target.value })}
+    className="input-field"
+  />
+
+  <textarea
+    placeholder="Опис"
+    value={productForm.description}
+    onChange={(e) =>
+      setProductForm({ ...productForm, description: e.target.value })
+    }
+    className="input-field min-h-20 resize-none"
+  />
+
+  <div className="space-y-2">
+    <label className="block text-sm font-medium">
+      Фото товару
+    </label>
+
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => {
+        if (e.target.files?.[0]) {
+          setImageFile(e.target.files[0]);
+        }
+      }}
+    />
+
+    {imageFile && (
+      <div className="space-y-2">
+        <img
+          src={URL.createObjectURL(imageFile)}
+          alt="preview"
+          className="w-28 h-28 object-cover rounded-lg border"
+        />
+        <p className="text-sm text-green-600">
+          ✓ {imageFile.name}
+        </p>
+      </div>
+    )}
+  </div>
+
+  <div className="flex gap-3">
+    <input
+      type="number"
+      placeholder="Ціна"
+      value={productForm.price}
+      onChange={(e) =>
+        setProductForm({ ...productForm, price: e.target.value })
+      }
+      className="input-field flex-1"
+    />
+
+    <input
+      type="number"
+      placeholder="Стара ціна"
+      value={productForm.originalPrice}
+      onChange={(e) =>
+        setProductForm({
+          ...productForm,
+          originalPrice: e.target.value,
+        })
+      }
+      className="input-field flex-1"
+    />
+  </div>
+
+  <select
+    value={productForm.categoryId}
+    onChange={(e) =>
+      setProductForm({
+        ...productForm,
+        categoryId: e.target.value,
+      })
+    }
+    className="input-field"
+  >
+    <option value="">Без категорії</option>
+    {categories.map((cat) => (
+      <option key={cat.id} value={cat.id}>
+        {cat.name}
+      </option>
+    ))}
+  </select>
+
+  <input
+    type="number"
+    placeholder="Кількість на складі"
+    value={productForm.stock}
+    onChange={(e) =>
+      setProductForm({
+        ...productForm,
+        stock: e.target.value,
+      })
+    }
+    className="input-field"
+  />
+
+  <div className="flex gap-4">
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={productForm.isNew}
+        onChange={(e) =>
+          setProductForm({
+            ...productForm,
+            isNew: e.target.checked,
+          })
+        }
+        className="w-5 h-5 rounded border-neutral-200"
+      />
+      <span className="text-sm">Новинка</span>
+    </label>
+
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={productForm.isPopular}
+        onChange={(e) =>
+          setProductForm({
+            ...productForm,
+            isPopular: e.target.checked,
+          })
+        }
+        className="w-5 h-5 rounded border-neutral-200"
+      />
+      <span className="text-sm">Популярний</span>
+    </label>
+  </div>
+
+  <button
+    onClick={handleSaveProduct}
+    className="btn-primary flex items-center justify-center gap-2"
+  >
+    <Save className="w-4 h-4" />
+    {editingProduct ? 'Зберегти зміни' : 'Додати товар'}
+  </button>
 </div>
-                <textarea
-                  placeholder="Опис"
-                  value={productForm.description}
-                  onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
-                  className="input-field min-h-20 resize-none"
-                />
-                <div className="flex gap-3">
-                  <input
-                    type="number"
-                    placeholder="Ціна"
-                    value={productForm.price}
-                    onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
-                    className="input-field flex-1"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Стара ціна"
-                    value={productForm.originalPrice}
-                    onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
-                    className="input-field flex-1"
-                  />
-                </div>
-                
-                <select
-                  value={productForm.categoryId}
-                  onChange={(e) => setProductForm({ ...productForm, categoryId: e.target.value })}
-                  className="input-field"
-                >
-                  <option value="">Без категорії</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="number"
-                  placeholder="Кількість на складі"
-                  value={productForm.stock}
-                  onChange={(e) => setProductForm({ ...productForm, stock: e.target.value })}
-                  className="input-field"
-                />
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={productForm.isNew}
-                      onChange={(e) => setProductForm({ ...productForm, isNew: e.target.checked })}
-                      className="w-5 h-5 rounded border-neutral-200"
-                    />
-                    <span className="text-sm">Новинка</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={productForm.isPopular}
-                      onChange={(e) => setProductForm({ ...productForm, isPopular: e.target.checked })}
-                      className="w-5 h-5 rounded border-neutral-200"
-                    />
-                    <span className="text-sm">Популярний</span>
-                  </label>
-                </div>
-                <button onClick={handleSaveProduct} className="btn-primary flex items-center justify-center gap-2">
-                  <Save className="w-4 h-4" />
-                  {editingProduct ? 'Зберегти зміни' : 'Додати товар'}
-                </button>
-              </div>
             </div>
           )}
 
