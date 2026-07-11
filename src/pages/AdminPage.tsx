@@ -142,6 +142,8 @@ export function AdminPage() {
   };
 
   const handleSaveProduct = async () => {
+    try {
+
   alert("1");
 
   if (!productForm.name || !productForm.slug || !productForm.price) {
