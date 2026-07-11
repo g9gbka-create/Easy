@@ -223,6 +223,8 @@ try {
       alert("8");
       console.log("4");
       const docRef = await addDoc(collection(db, "products"), productData);
+      alert("9");
+      
       console.log("5");
 
       setProducts([
