@@ -142,68 +142,82 @@ export function AdminPage() {
   };
 
   const handleSaveProduct = async () => {
-    if (!productForm.name || !productForm.slug || !productForm.price) return;
-    
-let imageUrl: string | null = productForm.imageUrl || null;
+  if (!productForm.name || !productForm.price) {
+    alert("Заповніть назву та ціну");
+    return;
+  }
 
-if (imageFile) {
-  const imageRef = ref(
-    storage,
-    `products/${Date.now()}-${imageFile.name}`
-  );
+  try {
+    let imageUrl: string | null = productForm.imageUrl || null;
 
-  await uploadBytes(imageRef, imageFile);
+    if (imageFile) {
+      const imageRef = ref(
+        storage,
+        `products/${Date.now()}-${imageFile.name}`
+      );
 
-  imageUrl = await getDownloadURL(imageRef);
-}
-    
+      await uploadBytes(imageRef, imageFile);
+      imageUrl = await getDownloadURL(imageRef);
+    }
+
     const productData = {
       name: productForm.name,
-      slug: productForm.slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+      slug:
+        productForm.slug.trim() ||
+        productForm.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, ""),
+
       description: productForm.description || null,
-      price: parseFloat(productForm.price),
-      originalPrice: productForm.originalPrice ? parseFloat(productForm.originalPrice) : null,
+      price: Number(productForm.price),
+      originalPrice: productForm.originalPrice
+        ? Number(productForm.originalPrice)
+        : null,
+
       imageUrl,
-      images: [],
+      images: imageUrl ? [imageUrl] : [],
+
       categoryId: productForm.categoryId || null,
-      stock: parseInt(productForm.stock) || 0,
+      stock: Number(productForm.stock) || 0,
       isNew: productForm.isNew,
       isPopular: productForm.isPopular,
       createdAt: serverTimestamp(),
     };
 
-    try {
-      console.log('Начинаем сохранение товара');
-      if (editingProduct) {
-        await updateDoc(doc(db, 'products', editingProduct.id), productData);
-        setProducts(
-          products.map((p) =>
-            p.id === editingProduct.id
-              ? { ...p, ...productData, createdAt: p.createdAt }
-              : p
-          )
-        );
-        setEditingProduct(null);
-        setShowProductForm(false);
-      } else {
-        const docRef = await addDoc(collection(db, 'products'), productData);
-        setProducts([
-          {
-            id: docRef.id,
-            ...productData,
-            images: [],
-            createdAt: new Date(),
-          },
-          ...products,
-        ]);
-        resetProductForm();
-        setShowProductForm(false);
-      }
-    } catch (error) {
-  console.error(error);
-  alert(String(error));
+    if (editingProduct) {
+      await updateDoc(doc(db, "products", editingProduct.id), productData);
+
+      setProducts(
+        products.map((p) =>
+          p.id === editingProduct.id
+            ? { ...p, ...productData, createdAt: p.createdAt }
+            : p
+        )
+      );
+    } else {
+      const docRef = await addDoc(collection(db, "products"), productData);
+
+      setProducts([
+        {
+          id: docRef.id,
+          ...productData,
+          createdAt: new Date(),
+        },
+        ...products,
+      ]);
     }
-  };
+
+    resetProductForm();
+    setImageFile(null);
+    setEditingProduct(null);
+    setShowProductForm(false);
+
+  } catch (error) {
+    console.error(error);
+    alert(String(error));
+  }
+};
 
   const handleDeleteProduct = async (id: string) => {
     if (!confirm('Видалити цей товар?')) return;
