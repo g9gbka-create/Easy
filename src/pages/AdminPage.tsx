@@ -201,6 +201,7 @@ export function AdminPage() {
     } else {
       console.log("4");
       const docRef = await addDoc(collection(db, "products"), productData);
+      console.log("5");
 
       setProducts([
         {
