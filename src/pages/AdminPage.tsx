@@ -486,13 +486,16 @@ export function AdminPage() {
     </label>
   </div>
 
-  <button
-    onClick={handleSaveProduct}
-    className="btn-primary flex items-center justify-center gap-2"
-  >
-    <Save className="w-4 h-4" />
-    {editingProduct ? 'Зберегти зміни' : 'Додати товар'}
-  </button>
+<button
+  onClick={() => {
+    alert("Кнопка нажата");
+    handleSaveProduct();
+  }}
+  className="btn-primary flex items-center justify-center gap-2"
+>
+  <Save className="w-4 h-4" />
+  {editingProduct ? 'Зберегти зміни' : 'Додати товар'}
+</button>
 </div>
             </div>
           )}
