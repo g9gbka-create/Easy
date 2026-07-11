@@ -148,6 +148,7 @@ export function AdminPage() {
   }
 
   try {
+    console.log("1");
     let imageUrl: string | null = productForm.imageUrl || null;
 
     if (imageFile) {
