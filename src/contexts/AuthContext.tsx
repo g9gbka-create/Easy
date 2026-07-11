@@ -44,12 +44,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
+  try {
     const docRef = doc(db, 'profiles', userId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      console.log('PROFILE:', data);
+
       setProfile({
         id: docSnap.id,
         fullName: data.fullName || null,
@@ -59,11 +60,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         createdAt: data.createdAt?.toDate() || new Date(),
       });
     } else {
+      console.log('Профиль не найден');
       setProfile(null);
     }
-    console.log('isAdmin =', data.isAdmin);
+  } catch (error) {
+    console.error('Ошибка загрузки профиля:', error);
+    setProfile(null);
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   const signUp = async (email: string, password: string, fullName?: string) => {
     try {
