@@ -569,4 +569,3 @@ export function AdminPage() {
     </div>
   );
 }
-```
