@@ -158,6 +158,7 @@ export function AdminPage() {
       );
 
       await uploadBytes(imageRef, imageFile);
+      console.log("2");
       imageUrl = await getDownloadURL(imageRef);
     }
 
