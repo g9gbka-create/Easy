@@ -475,27 +475,13 @@ export function AdminPage() {
                   onChange={(e) => setCategoryForm({ ...categoryForm, slug: e.target.value })}
                   className="input-field"
                 />
-                <div className="space-y-2">
-  <label className="block text-sm font-medium">
-    Фото товару
-  </label>
-
-  <input
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-      if (e.target.files?.[0]) {
-        setImageFile(e.target.files[0]);
-      }
-    }}
-  />
-
-  {imageFile && (
-    <p className="text-sm text-green-600">
-      ✓ {imageFile.name}
-    </p>
-  )}
-</div>
+                <input
+                  type="url"
+                  placeholder="URL зображення"
+                  value={categoryForm.imageUrl}
+                  onChange={(e) => setCategoryForm({ ...categoryForm, imageUrl: e.target.value })}
+                  className="input-field"
+                />
                 <button onClick={handleSaveCategory} className="btn-primary flex items-center justify-center gap-2">
                   <Save className="w-4 h-4" />
                   Додати категорію
