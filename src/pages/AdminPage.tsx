@@ -12,7 +12,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import { Plus, Edit2, Trash2, X, Save, ChevronLeft, Image } from 'lucide-react';
-import { db } from '../lib/firebase';
+import { db, storage } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Product, Category } from '../types/database.types';
 
