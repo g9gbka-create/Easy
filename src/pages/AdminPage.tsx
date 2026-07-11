@@ -183,7 +183,7 @@ if (!productForm.name || !productForm.slug || !productForm.price) {
   }
 
   alert("7");
-
+try {
     const productData = {
       name: productForm.name,
       slug:
