@@ -173,6 +173,7 @@ if (imageFile) {
     };
 
     try {
+      console.log('Начинаем сохранение товара');
       if (editingProduct) {
         await updateDoc(doc(db, 'products', editingProduct.id), productData);
         setProducts(
