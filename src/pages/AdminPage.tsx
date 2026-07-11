@@ -360,13 +360,7 @@ export function AdminPage() {
                     className="input-field flex-1"
                   />
                 </div>
-                <input
-                  type="url"
-                  placeholder="URL зображення"
-                  value={productForm.imageUrl}
-                  onChange={(e) => setProductForm({ ...productForm, imageUrl: e.target.value })}
-                  className="input-field"
-                />
+                
                 <select
                   value={productForm.categoryId}
                   onChange={(e) => setProductForm({ ...productForm, categoryId: e.target.value })}
