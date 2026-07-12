@@ -389,10 +389,15 @@ images: imageUrls,
   multiple
   className="hidden"
   onChange={(e) => {
-    if (e.target.files) {
-      setImageFiles(Array.from(e.target.files));
-    }
-  }}
+  if (!e.target.files) return;
+
+  setImageFiles((prev) => [
+    ...prev,
+    ...Array.from(e.target.files),
+  ]);
+
+  e.target.value = "";
+}}
 />
                   </label>
                   {imageFile && (
