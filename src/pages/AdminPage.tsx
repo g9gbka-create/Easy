@@ -25,7 +25,7 @@ export function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showProductForm, setShowProductForm] = useState(false);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
@@ -140,28 +140,32 @@ export function AdminPage() {
     if (!productForm.name || !productForm.price) return;
 
     try {
-      let imageUrl: string | null = productForm.imageUrl || null;
+      let imageUrls: string[] = [];
 
-if (imageFile) {
-  const formData = new FormData();
-  formData.append('file', imageFile);
-  formData.append('upload_preset', 'Easyshoping');
+if (imageFiles.length > 0) {
+  for (const file of imageFiles) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'Easyshoping');
 
-  const response = await fetch(
-    'https://api.cloudinary.com/v1_1/rdadjapv/image/upload',
-    {
-      method: 'POST',
-      body: formData,
+    const response = await fetch(
+      'https://api.cloudinary.com/v1_1/rdadjapv/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'Помилка завантаження фото');
     }
-  );
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error?.message || 'Помилка завантаження фото');
+    imageUrls.push(data.secure_url);
   }
-
-  imageUrl = data.secure_url;
+} else if (productForm.imageUrl) {
+  imageUrls = [productForm.imageUrl];
 }
 
       const slug =
