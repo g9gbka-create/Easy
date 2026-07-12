@@ -165,11 +165,11 @@ if (imageFile) {
 }
 
       const slug =
-        productForm.slug.trim() ||
-        productForm.name
-          .toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[^a-z0-9-]/g, '');
+  productForm.slug.trim() ||
+  productForm.name
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-');
 
       const productData = {
         name: productForm.name,
