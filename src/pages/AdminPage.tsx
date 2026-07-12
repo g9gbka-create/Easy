@@ -11,9 +11,8 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Plus, Edit2, Trash2, X, Save, ChevronLeft, Image } from 'lucide-react';
-import { db, storage } from '../lib/firebase';
+import { db, } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Product, Category } from '../types/database.types';
 
@@ -143,11 +142,27 @@ export function AdminPage() {
     try {
       let imageUrl: string | null = productForm.imageUrl || null;
 
-      if (imageFile) {
-        const imageRef = ref(storage, `products/${Date.now()}-${imageFile.name}`);
-        await uploadBytes(imageRef, imageFile);
-        imageUrl = await getDownloadURL(imageRef);
-      }
+if (imageFile) {
+  const formData = new FormData();
+  formData.append('file', imageFile);
+  formData.append('upload_preset', 'Easyshoping');
+
+  const response = await fetch(
+    'https://api.cloudinary.com/v1_1/rdadjapv/image/upload',
+    {
+      method: 'POST',
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error?.message || 'Помилка завантаження фото');
+  }
+
+  imageUrl = data.secure_url;
+}
 
       const slug =
         productForm.slug.trim() ||
