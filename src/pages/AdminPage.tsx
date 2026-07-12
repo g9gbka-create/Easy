@@ -380,14 +380,16 @@ images: imageUrls,
                       {imageFile ? imageFile.name : 'Вибрати зображення з пристрою'}
                     </span>
                     <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] ?? null;
-                        setImageFile(file);
-                      }}
-                    />
+  type="file"
+  accept="image/*"
+  multiple
+  className="hidden"
+  onChange={(e) => {
+    if (e.target.files) {
+      setImageFiles(Array.from(e.target.files));
+    }
+  }}
+/>
                   </label>
                   {imageFile && (
                     <img
