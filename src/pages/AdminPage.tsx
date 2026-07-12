@@ -377,7 +377,11 @@ images: imageUrls,
                   <label className="flex items-center gap-2 cursor-pointer w-full py-2 px-3 border border-neutral-200 rounded-xl hover:border-neutral-300 transition-colors">
                     <Image className="w-4 h-4 text-neutral-400" />
                     <span className="text-sm text-neutral-500">
-                      {imageFile ? imageFile.name : 'Вибрати зображення з пристрою'}
+                      {
+  imageFiles.length > 0
+    ? `Вибрано фото: ${imageFiles.length}`
+    : 'Вибрати зображення з пристрою'
+                      }
                     </span>
                     <input
   type="file"
