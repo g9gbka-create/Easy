@@ -138,19 +138,15 @@ export function AdminPage() {
   };
 
   const handleSaveProduct = async () => {
-    alert("Старт");
     if (!productForm.name || !productForm.price) return;
 
     try {
-      alert("До загрузки фото");
       let imageUrl: string | null = productForm.imageUrl || null;
 
       if (imageFile) {
         const imageRef = ref(storage, `products/${Date.now()}-${imageFile.name}`);
         await uploadBytes(imageRef, imageFile);
-        alert("Фото загружено");
         imageUrl = await getDownloadURL(imageRef);
-        alert(imageUrl);
       }
 
       const slug =
@@ -160,8 +156,6 @@ export function AdminPage() {
           .replace(/\s+/g, '-')
           .replace(/[^a-z0-9-]/g, '');
 
-      alert("До addDoc");
-      
       const productData = {
         name: productForm.name,
         slug,
@@ -188,7 +182,6 @@ export function AdminPage() {
         );
       } else {
         const docRef = await addDoc(collection(db, 'products'), productData);
-        alert("Товар сохранен");
         setProducts([
           {
             id: docRef.id,
